@@ -56,9 +56,13 @@
         ]
       }
     ],
-    "full_report_received": false,
-    "per_run_diagnostics_reviewed": false,
+    "full_report_received": true,
+    "per_run_diagnostics_reviewed": true,
     "attached_report_2_json": "Exactly matches the first baseline report rather than the quality-fix run",
-    "required_report": "runtime/gigachat_quality_fix/report.json"
+    "required_report": "runtime/gigachat_final/report.json",
+    "report_sha256": "4006c800b853326aac5f1495ee14eebea1eef0f140ce34a8e5aa8c49d595cd89",
+    "failure_audit_file": "gigachat_quality_fix_audit.json",
+    "reviewed_drafts": 26,
+    "note": "Correct report(3).json confirms the 62/63 run and a routing-repeat stop after two rejected finals. Bounded recovery is implemented; no new real-model score is claimed."
   }
 }

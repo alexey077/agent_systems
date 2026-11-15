@@ -1,0 +1,567 @@
+{
+  "source_kind": "complete quality-fix real-provider report reviewed by assistant",
+  "report_sha256": "4006c800b853326aac5f1495ee14eebea1eef0f140ce34a8e5aa8c49d595cd89",
+  "evaluated_code_commit": "651295cec3c6e669ad992651d43fe40d15960f2c",
+  "metrics": {
+    "scenario_pass_rate": 0.9841269841269841,
+    "category_accuracy": 1.0,
+    "handoff_accuracy": 0.9841269841269841,
+    "priority_accuracy": 1.0,
+    "draft_ready_share": 0.4126984126984127,
+    "median_seconds": 5.366,
+    "total_tokens": 100205
+  },
+  "counts": {
+    "runs": 63,
+    "passed": 62,
+    "drafts_reviewed": 26,
+    "manual_cards_checked": 37,
+    "unexpected_manual_result": 1
+  },
+  "failed_run": {
+    "scenario_id": "debt_normal",
+    "repetition": 1,
+    "checks": {
+      "category": true,
+      "handoff": false,
+      "status": false,
+      "tools": true,
+      "sources": false,
+      "priority": true
+    },
+    "recorded_tools": [
+      "search_knowledge_base",
+      "get_routing_rules",
+      "get_routing_rules"
+    ],
+    "diagnostics": {
+      "answer_rejections": [
+        "Итог не соответствует JSON-схеме: [{\"field\": \"\", \"type\": \"json_invalid\", \"message\": \"Invalid JSON: expected value at line 1 column 1\"}]",
+        "В draft_answer попал служебный ID. Оставь IDs только в source_ids; в тексте нужны обычные предложения"
+      ],
+      "tool_errors": [],
+      "provider_errors": [],
+      "handoff_confirmed": false
+    },
+    "result": {
+      "category": "tax_debt",
+      "status": "needs_review",
+      "needs_human": true,
+      "steps": 6,
+      "tool_calls": 4,
+      "total_tokens": 5462,
+      "handoff_reason": "Остановлен повтор одинакового вызова инструмента"
+    }
+  },
+  "finding": "Repeated routing hit the identical-call stop after JSON and draft-marker rejections. The report omits per-call payloads; no exact model-turn replay is claimed.",
+  "repair": "After a rejected final, return repeat_limit once for an already-successful identical read without executing it again; all original step/token/time/call limits remain.",
+  "new_real_provider_score_available": false,
+  "draft_reviews": [
+    {
+      "scenario_id": "account_normal",
+      "repetition": 1,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "account_normal",
+      "repetition": 2,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "account_normal",
+      "repetition": 3,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 1,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 2,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 3,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 1,
+      "source_ids": [
+        "fns_property_error"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 2,
+      "source_ids": [
+        "fns_property_error"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 3,
+      "source_ids": [
+        "fns_property_error"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 1,
+      "source_ids": [
+        "fns_deduction"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 2,
+      "source_ids": [
+        "fns_deduction"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 3,
+      "source_ids": [
+        "fns_deduction"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 2,
+      "source_ids": [
+        "fns_tax_debt"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 3,
+      "source_ids": [
+        "fns_tax_debt"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 1,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 2,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 3,
+      "source_ids": [
+        "fns_tax_notice"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 1,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 2,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 3,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 1,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 2,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 3,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 1,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 2,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 3,
+      "source_ids": [
+        "fns_account_access"
+      ],
+      "review": "accepted_without_required_content_revision"
+    }
+  ],
+  "manual_cards": [
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 1,
+      "status": "needs_review",
+      "expected": false,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 1,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 2,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 3,
+      "status": "escalated",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 1,
+      "status": "cancelled",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 2,
+      "status": "cancelled",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 3,
+      "status": "cancelled",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 1,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 2,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 3,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 1,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 2,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 3,
+      "status": "needs_review",
+      "expected": true,
+      "empty_draft": true,
+      "ticket_consistent": true
+    }
+  ]
+}

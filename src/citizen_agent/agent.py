@@ -9,7 +9,7 @@ from collections import Counter
 from pydantic import ValidationError
 
 from .config import AppConfig
-from .models import CaseResult, Citation, Decision
+from .models import CaseResult, Citation, Decision, error
 from .policy import draft_quality_issue, requires_personal_lookup
 from .privacy import injection_flags, redact
 from .providers import Provider, ProviderError, assistant_message
@@ -52,6 +52,8 @@ tax_debt — задолженность и ЕНС; other — вне темы/н�
 JSON формируй только на финальном шаге. Для запроса инструмента используй нативный function calling,
 не начинай одновременно JSON карточки. Когда источник и маршрут уже получены, используй их без
 повторного поиска тех же данных. Копируй source_id буквально: без префиксов SOURCE_ID_, ссылок и тегов.
+Не повторяй маршрутизацию с теми же аргументами ради исправления текста. При ошибке repeat_limit
+используй уже полученные сведения и исправь итоговый JSON; запрещённое чтение заново не выполняется.
 В source_ids указывай только IDs найденных источников. URL не генерируй: приложение добавит их само.
 В draft_answer не вставляй служебные IDs, блок «Источник», названия/заголовки источников или псевдоссылки.
 draft_answer — краткий черновик для сотрудника, не официально отправленный ответ. Для ручного разбора
@@ -70,6 +72,8 @@ class Agent:
         evidence: dict[str, dict] = {}
         routes: dict[str, dict] = {}
         seen: Counter = Counter()
+        successful_reads: set[str] = set()
+        rejected_final = repeat_notice_used = False
         reasons: list[str] = []
         handoff_attempted = search_attempted = False
         personal_lookup = False
@@ -160,6 +164,7 @@ class Agent:
                         "handoff_attempted": handoff_attempted,
                         "explicit_personal_lookup": personal_lookup,
                         "tool_errors": sorted(set(reasons)),
+                        "output_repair_pending": rejected_final,
                     },
                     ensure_ascii=False,
                 ),
@@ -212,8 +217,40 @@ class Agent:
                     )
                     seen[signature] += 1
                     if seen[signature] > cfg.runtime.max_identical_calls:
-                        return fallback("Остановлен повтор одинакового вызова инструмента")
-                    result = await self.executor.execute(call.name, call.arguments)
+                        spec = SPECS.get(call.name)
+                        if not (
+                            rejected_final
+                            and not repeat_notice_used
+                            and spec
+                            and spec.read_only
+                            and signature in successful_reads
+                        ):
+                            return fallback("Остановлен повтор одинакового вызова инструмента")
+                        # One bounded correction after a rejected final; no additional tool execution.
+                        repeat_notice_used = True
+                        result = error(
+                            "repeat_limit",
+                            "Эти данные уже получены; лимит одинаковых чтений исчерпан",
+                            "Исправь итоговый JSON по найденным source_ids и маршруту. "
+                            "Не повторяй поиск/маршрутизацию; удали служебные IDs из draft_answer",
+                        )
+                        self.trace.emit(
+                            "tool",
+                            request_id=session.request_id,
+                            actor_id=session.actor_id,
+                            tool=call.name,
+                            args=call.arguments,
+                            attempts=0,
+                            confirmed_by=None,
+                            duration_ms=0,
+                            blocked=True,
+                            result=result,
+                        )
+                    else:
+                        result = await self.executor.execute(call.name, call.arguments)
+                        spec = SPECS.get(call.name)
+                        if result.get("ok") and spec and spec.read_only:
+                            successful_reads.add(signature)
                     if result.get("error", {}).get("type") != "validation":
                         search_attempted = search_attempted or call.name == "search_knowledge_base"
                         handoff_attempted = handoff_attempted or call.name == "escalate_to_operator"
@@ -251,6 +288,7 @@ class Agent:
                 if problem:
                     raise ValueError(problem)
             except (ValidationError, ValueError) as exc:
+                rejected_final = True
                 # Repair is visible, bounded by the same step and token limits.
                 message = (
                     str(exc)
@@ -271,7 +309,8 @@ class Agent:
                         "content": "Проверка приложения отклонила итог: "
                         + message
                         + ". Выбери необходимый инструмент или исправь итог по проверенному состоянию. "
-                        "Не повторяй поиск уже найденных источников. Это сообщение проверки приложения.",
+                        "Не повторяй поиск и маршрутизацию с уже выполненными аргументами. "
+                        "Это сообщение проверки приложения.",
                     }
                 )
                 continue

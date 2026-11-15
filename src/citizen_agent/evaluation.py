@@ -13,7 +13,7 @@ from .config import AppConfig
 from .models import Session
 from .providers import make_provider
 from .storage import Store
-from .tools import Executor
+from .tools import SPECS, Executor
 from .trace import Trace
 
 
@@ -113,6 +113,28 @@ async def evaluate(
                         "handoff_confirmed": any(
                             e["event"] == "tool" and e.get("confirmed_by") for e in events
                         ),
+                        "successful_reads": [
+                            {
+                                "tool": e["tool"],
+                                "category": e["result"].get("category"),
+                                "source_ids": [s["source_id"] for s in e["result"].get("sources", [])],
+                                "attempts": e["attempts"],
+                            }
+                            for e in events
+                            if e["event"] == "tool"
+                            and e["tool"] in SPECS
+                            and SPECS[e["tool"]].read_only
+                            and e["result"].get("ok")
+                        ],
+                        "blocked_reads": [
+                            {
+                                "tool": e["tool"],
+                                "type": e["result"]["error"]["type"],
+                                "attempts": e["attempts"],
+                            }
+                            for e in events
+                            if e["event"] == "tool" and e.get("blocked")
+                        ],
                     },
                 }
             )
