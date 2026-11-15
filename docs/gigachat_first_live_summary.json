@@ -1,0 +1,30 @@
+{
+  "mode": "real-provider",
+  "warning": "Synthetic scenario evaluation; inspect traces and failed cases",
+  "provider": "gigachat",
+  "model": "GigaChat-2-Pro",
+  "scenario_count": 21,
+  "repeats": 3,
+  "run_count": 63,
+  "metrics": {
+    "scenario_pass_rate": 0.6666666666666666,
+    "category_accuracy": 0.9523809523809523,
+    "handoff_accuracy": 0.8412698412698413,
+    "draft_ready_share": 0.30158730158730157,
+    "median_seconds": 6.153,
+    "total_tokens": 48173
+  },
+  "evidence": {
+    "source": "User-provided console summary from a macOS run on 2026-11-15",
+    "full_report_received": false,
+    "per_run_checks_reviewed": false,
+    "counts_derived_from_reported_rates": {
+      "passed": 42,
+      "failed": 21,
+      "category_correct": 60,
+      "handoff_correct": 53,
+      "draft_ready": 19
+    },
+    "note": "This is the original first live summary. Failure causes and improvements are not inferred from aggregate metrics."
+  }
+}
