@@ -35,6 +35,16 @@ def read_cases(root: Path, path: str | None = None) -> list[dict]:
     ]
 
 
+def select_cases(cases: list[dict], selected: list[str] | str | None) -> list[dict]:
+    if not selected:
+        return cases
+    wanted = {selected} if isinstance(selected, str) else set(selected)
+    unknown = wanted - {c["id"] for c in cases}
+    if unknown:
+        raise ValueError("Неизвестные сценарии: " + ", ".join(sorted(unknown)))
+    return [c for c in cases if c["id"] in wanted]
+
+
 async def async_main(args) -> int:
     config, root = load_config(args.config)
     load_dotenv(root / ".env", override=False)
@@ -95,9 +105,7 @@ async def async_main(args) -> int:
         )
         return 0
     if args.command == "evaluate":
-        cases = read_cases(root, args.scenarios)
-        if args.scenario:
-            cases = [c for c in cases if c["id"] == args.scenario]
+        cases = select_cases(read_cases(root, args.scenarios), args.scenario)
         if not cases:
             raise ValueError("Набор сценариев пуст")
         if config.provider.kind != "scripted" and args.repeats < 3:
@@ -169,7 +177,7 @@ def main():
     demo.add_argument("--fault", action="store_true")
     evaluation = commands.add_parser("evaluate", help="Оценить сценарии, повторяя каждый независимо")
     evaluation.add_argument("--scenarios")
-    evaluation.add_argument("--scenario")
+    evaluation.add_argument("--scenario", action="append", help="ID сценария; можно повторить для выборки")
     evaluation.add_argument("--repeats", type=int, choices=range(1, 6), default=3)
     evaluation.add_argument("--output", default="runtime/evaluation/report.json")
     try:

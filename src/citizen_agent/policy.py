@@ -52,14 +52,19 @@ def draft_quality_issue(draft: str, source_texts: list[str]) -> str | None:
         r"\bпо месту (?:учета|жительства|регистрации)\b", sources
     ):
         return "Уточнение о месте обращения не подтверждено найденным фрагментом. Не добавляй ограничения места от себя"
-    duty = r"\b(?:обязанност\w*|обязаны|обязан[ао]?|освобожд\w*)\b"
+    duty = r"\b(?:обязанност\w*|обязаны|обязан[ао]?|освобожд\w*|налогов\w*\s+обязательств\w*|поряд\w*\s+(?:уплат|оплат)\w*)\b"
     if re.search(duty, normalized) and not re.search(duty, sources):
         return "Правовой вывод об обязанности или освобождении от неё отсутствует в найденном фрагменте. Убери этот вывод"
+    tax_base = r"\bналогов\w*\s+баз\w*\b"
+    if re.search(tax_base, normalized) and not re.search(tax_base, sources):
+        return "В источнике описан перерасчёт налога, а не налоговой базы. Не подменяй термин и название заявления"
     if re.search(r"отсутствие бумажн\w* письм", sources):
         for sentence in re.split(r"[.!?;\n]+", normalized):
-            reversed_condition = re.search(r"\bбумажн\w* письм\w*.*\bне\b.*(?:гарантир|означ)", sentence)
-            absence = re.search(r"отсутств|неполуч|\bне\s+(?:получ\w*|приш\w*)", sentence)
-            if reversed_condition and not absence:
+            predicate = re.search(r"\bне\s+(?:всегда\s+)?(?:гарантир\w*|означ\w*|свидетельств\w*)", sentence)
+            condition = sentence[: predicate.start()] if predicate else ""
+            mentions_mail = re.search(r"\bбумажн\w* письм\w*", condition)
+            absence = re.search(r"отсутств|неполуч|\bне\s+(?:получ\w*|приш\w*)", condition)
+            if mentions_mail and not absence:
                 return (
                     "Изменено условие исходного утверждения: источник говорит об отсутствии бумажного письма. "
                     "Сохрани это условие и отрицание; не делай нового вывода о наличии письма"
