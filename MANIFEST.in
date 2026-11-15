@@ -1,4 +1,4 @@
-include requirements.lock requirements-dev.lock .env.example AGENTS.md
+include requirements.lock requirements-dev.lock .env.example
 recursive-include config *.toml
 recursive-include data *.json
 recursive-include docs *.md *.json

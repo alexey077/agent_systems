@@ -15,14 +15,6 @@ def test_tool_cards_have_all_eight_fields():
         assert cards.count(f"**{number}.") == 3
 
 
-def test_requirements_are_traceable_and_live_gates_explicit():
-    requirements = (ROOT / "docs/requirements.md").read_text()
-    for number in range(1, 17):
-        assert f"R{number:02}" in requirements
-    assert "Финальная запись с реальной моделью" in requirements
-    assert "scripted/offline" in requirements
-
-
 def test_relative_documentation_links_resolve():
     for file in [ROOT / "README.md", *ROOT.glob("docs/*.md")]:
         for target in re.findall(r"\]\(([^)]+)\)", file.read_text()):

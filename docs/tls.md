@@ -13,18 +13,13 @@
 
 При обновлении файла нужно повторно получить его из официального источника, проверить subject, issuer, сроки и SHA-256; затем обновить ожидаемый отпечаток в тесте. Не скачивать сертификаты автоматически во время запуска и не отключать TLS при скачивании.
 
-## Проверка на Mac
+## Диагностика
 
 ```bash
-cd ~/Desktop/agent_systems
-git pull --ff-only
-source .venv/bin/activate
-python -m pip install -r requirements-dev.lock
-python -m pip install --no-deps -e .
 appeals doctor --live
 ```
 
-Ключ уже находится в `.env`, повторный ввод не требуется. `doctor --live` печатает JSON и при неудаче завершается с кодом 2:
+Ключ задаётся в локальном `.env` через `GIGACHAT_CREDENTIALS`. `doctor --live` печатает JSON и при неудаче завершается с кодом 2:
 
 | Поле/тип | Значение и следующий шаг |
 |---|---|

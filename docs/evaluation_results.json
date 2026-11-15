@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-15",
+  "mode": "real-provider",
+  "provider": "gigachat",
+  "model": "GigaChat-2-Pro",
+  "dataset": "data/scenarios.json",
+  "evaluations": [
+    {
+      "id": "full_v1_initial",
+      "scope": "full",
+      "evaluation_schema_version": 1,
+      "scenario_count": 21,
+      "repeats": 3,
+      "run_count": 63,
+      "passed_runs": 42,
+      "metrics": {
+        "scenario_pass_rate": 0.6666666666666666,
+        "category_accuracy": 0.9523809523809523,
+        "handoff_accuracy": 0.8412698412698413,
+        "draft_ready_share": 0.30158730158730157,
+        "median_seconds": 6.153,
+        "total_tokens": 48173
+      },
+      "report_sha256": "81e322b486c6e16901463029a623a2f3a70d08c49762592f5e679805dad08de4"
+    },
+    {
+      "id": "full_v1_updated",
+      "scope": "full",
+      "evaluation_schema_version": 1,
+      "scenario_count": 21,
+      "repeats": 3,
+      "run_count": 63,
+      "passed_runs": 63,
+      "metrics": {
+        "scenario_pass_rate": 1,
+        "category_accuracy": 1,
+        "handoff_accuracy": 1,
+        "draft_ready_share": 0.42857142857142855,
+        "median_seconds": 5.085,
+        "total_tokens": 107892
+      },
+      "report_sha256": "11c4d746ba3e03ed050451473d82da691c30afd13e1be01dc0881dd53fd50832",
+      "code_commit": "0ee219fd36103c6e1de7b9a23f39138e4f8340de"
+    },
+    {
+      "id": "full_v2_initial",
+      "scope": "full",
+      "evaluation_schema_version": 2,
+      "scenario_count": 21,
+      "repeats": 3,
+      "run_count": 63,
+      "passed_runs": 62,
+      "metrics": {
+        "scenario_pass_rate": 0.9841269841269841,
+        "category_accuracy": 1.0,
+        "handoff_accuracy": 0.9841269841269841,
+        "priority_accuracy": 1.0,
+        "draft_ready_share": 0.4126984126984127,
+        "median_seconds": 5.366,
+        "total_tokens": 100205
+      },
+      "report_sha256": "4006c800b853326aac5f1495ee14eebea1eef0f140ce34a8e5aa8c49d595cd89",
+      "code_commit": "651295cec3c6e669ad992651d43fe40d15960f2c"
+    },
+    {
+      "id": "full_v2_updated",
+      "scope": "full",
+      "evaluation_schema_version": 2,
+      "scenario_count": 21,
+      "repeats": 5,
+      "run_count": 105,
+      "passed_runs": 105,
+      "metrics": {
+        "scenario_pass_rate": 1.0,
+        "category_accuracy": 1.0,
+        "handoff_accuracy": 1.0,
+        "priority_accuracy": 1.0,
+        "draft_ready_share": 0.42857142857142855,
+        "median_seconds": 5.801,
+        "total_tokens": 142083
+      },
+      "report_sha256": "6048846ee0c7574d54ddbb78e8a255b9c94bb78b489b2aa671e9ca6704d129b6",
+      "code_commit": "1eaff2740f51923e12c1c6d1fa71ba40468a24f3"
+    },
+    {
+      "id": "targeted_v2",
+      "scope": "targeted",
+      "evaluation_schema_version": 2,
+      "scenario_count": 3,
+      "repeats": 5,
+      "run_count": 15,
+      "passed_runs": 15,
+      "metrics": {
+        "scenario_pass_rate": 1.0,
+        "category_accuracy": 1.0,
+        "handoff_accuracy": 1.0,
+        "priority_accuracy": 1.0,
+        "draft_ready_share": 1.0,
+        "median_seconds": 5.589,
+        "total_tokens": 28515
+      },
+      "report_sha256": "a0f73b06bfc11164275f3d623e40d54732f4346e3a9bbbc9b6ccdbff32bc797b",
+      "scenario_ids": [
+        "notice_normal",
+        "property_normal",
+        "priority_high"
+      ]
+    }
+  ],
+  "content_review": {
+    "method": "LLM-assisted comparison with retrieved source fragments; no independent human validation",
+    "full_v2_updated": {
+      "drafts_reviewed": 45,
+      "drafts_requiring_revision": 4
+    },
+    "targeted_v2": {
+      "drafts_reviewed": 15,
+      "drafts_requiring_revision": 0,
+      "runs_with_successful_answer_repair": 5,
+      "blocked_read_recoveries": 1
+    }
+  },
+  "limitations": [
+    "Fixed synthetic scenarios do not estimate accuracy on real citizen appeals.",
+    "Versions 1 and 2 use five and six checks respectively; version 2 adds priority.",
+    "The full and targeted evaluations are separate runs of different code versions and are not aggregated.",
+    "The targeted report does not record a code commit; raw traces and databases are not distributed.",
+    "The alternative provider is covered by HTTP-contract tests; no real alternative-provider run is recorded."
+  ]
+}
