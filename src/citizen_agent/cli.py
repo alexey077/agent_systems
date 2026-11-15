@@ -102,7 +102,19 @@ async def async_main(args) -> int:
             raise ValueError("Набор сценариев пуст")
         if config.provider.kind != "scripted" and args.repeats < 3:
             raise ValueError("Для оценки реальной модели нужно не менее 3 повторов каждого сценария")
-        report = await evaluate(config, root, cases, args.repeats, Path(args.output).resolve())
+        progress = None
+        if config.provider.kind != "scripted":
+
+            def progress(state):
+                print(
+                    json.dumps({"event": "evaluation_progress", **state}, ensure_ascii=False),
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+        report = await evaluate(
+            config, root, cases, args.repeats, Path(args.output).resolve(), progress=progress
+        )
         print(json.dumps({k: v for k, v in report.items() if k != "runs"}, ensure_ascii=False, indent=2))
         return 0 if report["metrics"]["scenario_pass_rate"] == 1 else 1
     if args.command in {"run", "demo"}:

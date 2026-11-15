@@ -4,6 +4,7 @@ import json
 import statistics
 import time
 import uuid
+from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
 
@@ -52,7 +53,15 @@ async def run_case(
         await provider.aclose()
 
 
-async def evaluate(config: AppConfig, root: Path, cases: list[dict], repeats: int, output: Path) -> dict:
+async def evaluate(
+    config: AppConfig,
+    root: Path,
+    cases: list[dict],
+    repeats: int,
+    output: Path,
+    *,
+    progress: Callable[[dict], None] | None = None,
+) -> dict:
     runs = []
     for case in cases:
         for repetition in range(repeats):
@@ -90,8 +99,33 @@ async def evaluate(config: AppConfig, root: Path, cases: list[dict], repeats: in
                     "seconds": round(time.monotonic() - started, 3),
                     "result": result.model_dump(),
                     "tools": observed_tools,
+                    "diagnostics": {
+                        "answer_rejections": [e["reason"] for e in events if e["event"] == "answer_rejected"],
+                        "tool_errors": [
+                            {"tool": e["tool"], "type": e["result"]["error"]["type"]}
+                            for e in events
+                            if e["event"] == "tool" and not e["result"].get("ok")
+                        ],
+                        "provider_errors": [
+                            e["error_type"] for e in events if e["event"] == "provider_error"
+                        ],
+                        "handoff_confirmed": any(
+                            e["event"] == "tool" and e.get("confirmed_by") for e in events
+                        ),
+                    },
                 }
             )
+            if progress:
+                progress(
+                    {
+                        "completed": len(runs),
+                        "total": len(cases) * repeats,
+                        "scenario_id": case["id"],
+                        "repetition": repetition + 1,
+                        "passed": runs[-1]["passed"],
+                        "failed_checks": [k for k, ok in checks.items() if not ok],
+                    }
+                )
     n = len(runs)
     report = {
         "mode": "offline-scripted" if config.provider.kind == "scripted" else "real-provider",
@@ -111,6 +145,22 @@ async def evaluate(config: AppConfig, root: Path, cases: list[dict], repeats: in
             "median_seconds": statistics.median(r["seconds"] for r in runs) if n else 0,
             "total_tokens": sum(r["result"]["total_tokens"] for r in runs),
         },
+        "failed_scenarios": [
+            {
+                "scenario_id": sid,
+                "failed_runs": sum(not r["passed"] for r in runs if r["scenario_id"] == sid),
+                "failed_checks": dict(
+                    Counter(
+                        key
+                        for r in runs
+                        if r["scenario_id"] == sid
+                        for key, ok in r["checks"].items()
+                        if not ok
+                    )
+                ),
+            }
+            for sid in dict.fromkeys(r["scenario_id"] for r in runs if not r["passed"])
+        ],
         "runs": runs,
     }
     output.parent.mkdir(parents=True, exist_ok=True)

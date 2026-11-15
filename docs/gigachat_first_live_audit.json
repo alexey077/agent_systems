@@ -1,0 +1,257 @@
+{
+  "source_kind": "audit_of_uploaded_original_real_provider_run",
+  "model": "GigaChat-2-Pro",
+  "input_sha256": {
+    "report.json": "81e322b486c6e16901463029a623a2f3a70d08c49762592f5e679805dad08de4",
+    "evaluation.sqlite3": "70fe942405003b00255b871e972f821597c47fc1be2520c7fef4f487659d2f70",
+    "traces.zip": "999422a332f6481561d0d25d7184efe505ab09d8c8a9ffeb9cfd404f28e8739d"
+  },
+  "consistency": {
+    "report_runs": 63,
+    "matching_database_results": 63,
+    "matching_final_trace_events": 63,
+    "saved_tickets": 21,
+    "provider_errors": 0
+  },
+  "baseline_metrics": {
+    "scenario_pass_rate": 0.6666666666666666,
+    "category_accuracy": 0.9523809523809523,
+    "handoff_accuracy": 0.8412698412698413,
+    "draft_ready_share": 0.30158730158730157,
+    "median_seconds": 6.153,
+    "total_tokens": 48173
+  },
+  "root_causes": {
+    "premature_review_before_search": 6,
+    "partial_json_and_repeated_search": 3,
+    "review_without_action": 11,
+    "personal_lookup_answered_as_instructions": 1
+  },
+  "validation_replay": {
+    "original_invalid_final_decisions_tested": 18,
+    "rejected_by_updated_validation": 18,
+    "warning": "Rechecking original decisions does not simulate new model behavior and is not a new real-provider pass rate."
+  },
+  "failed_runs": [
+    {
+      "scenario_id": "account_normal",
+      "repetition": 3,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools",
+        "sources"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 2,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools",
+        "sources"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 1,
+      "failed_checks": [
+        "category",
+        "handoff",
+        "status",
+        "sources"
+      ],
+      "cause": "partial_json_and_repeated_search"
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 2,
+      "failed_checks": [
+        "category",
+        "handoff",
+        "status",
+        "sources"
+      ],
+      "cause": "partial_json_and_repeated_search"
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 3,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools",
+        "sources"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 1,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools",
+        "sources"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 1,
+      "failed_checks": [
+        "category",
+        "handoff",
+        "status"
+      ],
+      "cause": "partial_json_and_repeated_search"
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 2,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 3,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools"
+      ],
+      "cause": "premature_review_before_search",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 1,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 2,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 3,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 1,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 2,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 3,
+      "failed_checks": [
+        "handoff",
+        "status",
+        "tools"
+      ],
+      "cause": "personal_lookup_answered_as_instructions",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 1,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 2,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 3,
+      "failed_checks": [
+        "status",
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 1,
+      "failed_checks": [
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 2,
+      "failed_checks": [
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 3,
+      "failed_checks": [
+        "tools"
+      ],
+      "cause": "review_without_action",
+      "original_final_rejected_by_updated_validation": true
+    }
+  ]
+}

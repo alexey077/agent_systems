@@ -16,8 +16,9 @@
   },
   "evidence": {
     "source": "User-provided console summary from a macOS run on 2026-11-15",
-    "full_report_received": false,
-    "per_run_checks_reviewed": false,
+    "full_report_received": true,
+    "per_run_checks_reviewed": true,
+    "audit_file": "gigachat_first_live_audit.json",
     "counts_derived_from_reported_rates": {
       "passed": 42,
       "failed": 21,
@@ -25,6 +26,6 @@
       "handoff_correct": 53,
       "draft_ready": 19
     },
-    "note": "This is the original first live summary. Failure causes and improvements are not inferred from aggregate metrics."
+    "note": "Original metrics are preserved. The full report, SQLite results and all 63 trace files were subsequently received and checked; failure causes are documented in the audit. No improved real-provider score is claimed."
   }
 }
