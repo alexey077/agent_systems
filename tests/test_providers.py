@@ -14,6 +14,16 @@ SCHEMAS = [s.schema() for s in SPECS.values()]
 USAGE = {"prompt_tokens": 50, "completion_tokens": 10}
 
 
+def test_missing_proxy_dependency_is_configuration_error(monkeypatch):
+    def missing_dependency(*args, **kwargs):
+        raise ImportError("optional proxy dependency missing")
+
+    monkeypatch.setattr(httpx, "AsyncClient", missing_dependency)
+    with pytest.raises(ProviderError, match="requirements-dev.lock") as exc:
+        GigaChatProvider(ProviderConfig())
+    assert exc.value.kind == "configuration"
+
+
 def test_native_gigachat_oauth_function_result_and_state(monkeypatch):
     monkeypatch.setenv("GIGACHAT_CREDENTIALS", "fake-test-authorization-only")
     requests = []

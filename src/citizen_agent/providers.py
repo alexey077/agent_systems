@@ -59,9 +59,14 @@ class HTTPProvider:
         ca_bundle = os.getenv(config.ca_bundle_env, "")
         if ca_bundle:
             context.load_verify_locations(cafile=ca_bundle)
-        self.client = httpx.AsyncClient(
-            timeout=config.timeout_seconds, verify=context, transport=transport, follow_redirects=False
-        )
+        try:
+            self.client = httpx.AsyncClient(
+                timeout=config.timeout_seconds, verify=context, transport=transport, follow_redirects=False
+            )
+        except ImportError as exc:
+            raise ProviderError(
+                "configuration", "Не установлена зависимость транспорта. Установите requirements-dev.lock"
+            ) from exc
 
     def secret(self) -> str:
         value = os.getenv(self.config.credentials_env, "").strip()
