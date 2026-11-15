@@ -1,0 +1,33 @@
+knowledge_path = "data/knowledge.json"
+routing_path = "data/routing.json"
+database_path = "runtime/appeals.sqlite3"
+traces_path = "runtime/traces"
+
+[provider]
+kind = "gigachat"
+model = "GigaChat-2-Pro"
+base_url = "https://api.giga.chat/v1"
+auth_url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
+credentials_env = "GIGACHAT_CREDENTIALS"
+scope_env = "GIGACHAT_SCOPE"
+ca_bundle_env = "GIGACHAT_CA_BUNDLE"
+timeout_seconds = 30.0
+max_attempts = 3
+max_output_tokens = 1800
+temperature = 0.1
+# Add BOTH prices from your actual tariff to enable cost estimation.
+# prompt_price_per_million = ...
+# completion_price_per_million = ...
+
+[runtime]
+max_steps = 10
+max_tool_calls = 12
+max_identical_calls = 2
+max_total_tokens = 30000
+max_context_chars = 60000
+max_input_chars = 6000
+max_result_chars = 9000
+max_elapsed_seconds = 180.0
+tool_timeout_seconds = 3.0
+read_attempts = 3
+retry_delay_seconds = 0.1

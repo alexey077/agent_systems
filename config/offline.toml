@@ -1,0 +1,12 @@
+knowledge_path = "data/knowledge.json"
+routing_path = "data/routing.json"
+database_path = "runtime/offline.sqlite3"
+traces_path = "runtime/offline-traces"
+
+[provider]
+kind = "scripted"
+model = "offline-fixture-not-an-llm"
+
+[runtime]
+tool_timeout_seconds = 0.05
+retry_delay_seconds = 0.0

@@ -1,0 +1,775 @@
+{
+  "mode": "offline-scripted",
+  "warning": "Offline fixtures test the harness, not LLM quality",
+  "provider": "scripted",
+  "model": "offline-fixture-not-an-llm",
+  "scenario_count": 21,
+  "repeats": 3,
+  "run_count": 63,
+  "metrics": {
+    "scenario_pass_rate": 1.0,
+    "category_accuracy": 1.0,
+    "handoff_accuracy": 1.0,
+    "draft_ready_share": 0.42857142857142855,
+    "median_seconds": 0.014,
+    "total_tokens": 0
+  },
+  "results": [
+    {
+      "scenario_id": "account_normal",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "account_normal",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "account_normal",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "notice_normal",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "property_normal",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "deduction_normal",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "debt_normal",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "priority_high",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_recovery",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "timeout_persistent",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "service_unavailable",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "malformed_tool",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "oversized_tool",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "source_injection",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "empty_search",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "invalid_args_repair",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "out_of_scope",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "ambiguous",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "personal_status",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "cancel_handoff",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "input_injection",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "permission_denied",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 1,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 2,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    },
+    {
+      "scenario_id": "fabricated_source_repair",
+      "repetition": 3,
+      "checks": {
+        "category": true,
+        "handoff": true,
+        "status": true,
+        "tools": true,
+        "sources": true
+      },
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+knowledge_path = "data/knowledge.json"
+routing_path = "data/routing.json"
+database_path = "runtime/appeals.sqlite3"
+traces_path = "runtime/traces"
+
+[provider]
+kind = "openai_compatible"
+model = "qwen3:8b"
+base_url = "http://127.0.0.1:11434/v1"
+credentials_env = "COMPATIBLE_API_KEY"
+timeout_seconds = 90.0
+max_output_tokens = 1800
+temperature = 0.1
+
+[runtime]
+max_elapsed_seconds = 600.0
