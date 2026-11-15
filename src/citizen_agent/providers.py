@@ -41,7 +41,7 @@ def assistant_message(turn: Turn) -> dict:
 
 def usage_of(data: dict) -> Usage:
     usage = data.get("usage") or {}
-    if not {"prompt_tokens", "completion_tokens"} <= usage.keys():
+    if not isinstance(usage, dict) or not {"prompt_tokens", "completion_tokens"} <= usage.keys():
         raise ProviderError("invalid_response", "API не вернул usage для контроля бюджета")
     return Usage(prompt_tokens=usage["prompt_tokens"], completion_tokens=usage["completion_tokens"])
 
@@ -212,7 +212,7 @@ class GigaChatProvider(HTTPProvider):
                 state_id=msg.get("functions_state_id"),
                 finish_reason=choice.get("finish_reason", "stop"),
             )
-        except (KeyError, IndexError, TypeError, ValueError) as exc:
+        except (KeyError, IndexError, TypeError, ValueError, AttributeError) as exc:
             raise ProviderError("invalid_response", "Неполный ответ GigaChat API") from exc
 
 
@@ -270,7 +270,7 @@ class CompatibleProvider(HTTPProvider):
                 usage=usage_of(data),
                 finish_reason=choice.get("finish_reason", "stop"),
             )
-        except (KeyError, IndexError, TypeError, ValueError) as exc:
+        except (KeyError, IndexError, TypeError, ValueError, AttributeError) as exc:
             raise ProviderError("invalid_response", "Неполный ответ совместимого API") from exc
 
 

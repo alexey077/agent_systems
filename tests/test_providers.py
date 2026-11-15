@@ -226,7 +226,19 @@ def test_http_failures_classified_and_bounded(monkeypatch, status, kind):
     assert count == (2 if status in {429, 503} else 1)
 
 
-@pytest.mark.parametrize("payload", [[], {}, {"choices": []}, {"choices": [{"message": {"content": 123}}]}])
+@pytest.mark.parametrize(
+    "payload",
+    [
+        [],
+        {},
+        {"choices": []},
+        {"choices": [{"message": {"content": 123}}]},
+        {"choices": [{"message": []}]},
+        {"choices": [{"message": {"content": "ok"}}], "usage": "broken"},
+        {"choices": [{"message": {"content": "ok"}}], "usage": {"prompt_tokens": -1, "completion_tokens": 0}},
+        {"choices": [{"message": {"content": "ok"}}]},
+    ],
+)
 def test_bad_provider_payload_never_accepted(monkeypatch, payload):
     monkeypatch.setenv("COMPATIBLE_API_KEY", "fake")
 
