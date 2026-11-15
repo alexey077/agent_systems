@@ -15,9 +15,9 @@
 | R07 | Клиент/объект и права из сессии | `models.Session`, `tools.py` | Подмена request_id и права |
 | R08 | Действие только после подтверждения параметров человеком | `tools.py`, `cli.py` | Отмена, отказ, дубль, отсутствие подтверждения |
 | R09 | Лимит шагов в цикле | `agent.py` | Зацикливание и исчерпание лимита |
-| R10 | Провайдер и модель меняются конфигом | `config/*.toml`, `providers.py` | Native GigaChat и OpenAI-compatible HTTP-контракты |
+| R10 | Провайдер и модель меняются конфигом | `config/*.toml`, `providers.py`, `docs/tls.md` | Native GigaChat и OpenAI-compatible HTTP-контракты; TLS и классификация сбоев в `tests/test_connection.py` |
 | R11 | Ключей нет в репозитории | `.gitignore`, `.env.example`, редактирование журналов | Проверка отслеживаемых файлов и тесты секретов |
-| R12 | Репозиторий с README и воспроизводимым запуском | `README.md`, `pyproject.toml`, CI | Установка, smoke, сборка |
+| R12 | Репозиторий с README и воспроизводимым запуском | `README.md`, `pyproject.toml`, CI, `docs/tls.md` | Установка, smoke, сборка с CA-ресурсом, диагностика `doctor --live` |
 | R13 | Нормальный сценарий и сбой на демо | `docs/demo.md`, команда `appeals demo` | Прогон обоих сценариев |
 | R14 | Тесты инструментов, модели с инструментами и отказов | `tests/`, `data/scenarios.json`, команда `appeals evaluate` | Offline suite; 3–5 повторов real LLM |
 | R15 | Видео до 3 минут | `docs/demo.md` | **Финальная запись с реальной моделью: требуется локальный запуск с ключом** |

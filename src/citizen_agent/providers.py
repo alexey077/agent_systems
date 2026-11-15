@@ -3,12 +3,16 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import socket
 import ssl
 import time
 import uuid
 from collections import deque
+from importlib.resources import files
+from pathlib import Path
 from typing import Protocol
 
+import certifi
 import httpx
 
 from .config import ProviderConfig
@@ -25,6 +29,62 @@ class ProviderError(Exception):
 class Provider(Protocol):
     async def complete(self, messages: list[dict], tools: list[dict]) -> Turn: ...
     async def aclose(self): ...
+
+
+def ssl_context(config: ProviderConfig) -> ssl.SSLContext:
+    """Keep system trust, add public WebPKI roots and GigaChat's published CA locally."""
+    try:
+        context = ssl.create_default_context()
+        context.load_verify_locations(cafile=certifi.where())
+        if config.kind == "gigachat":
+            pem = files("citizen_agent").joinpath("certs/russian_trusted_root_ca.pem").read_text("ascii")
+            context.load_verify_locations(cadata=pem)
+        ca_bundle = os.getenv(config.ca_bundle_env, "").strip()
+        if ca_bundle:
+            context.load_verify_locations(cafile=str(Path(ca_bundle).expanduser()))
+        return context
+    except (OSError, ValueError) as exc:
+        raise ProviderError(
+            "configuration",
+            "Не удалось загрузить доверенные TLS-сертификаты. "
+            f"Проверьте PEM-файл в {config.ca_bundle_env} и повторите установку проекта.",
+        ) from exc
+
+
+def transport_failure(exc: httpx.HTTPError, ca_bundle_env: str) -> tuple[str, str, bool]:
+    """Classify nested transport errors without exposing URLs, proxy credentials or headers."""
+    chain, seen, pending = [], set(), [exc]
+    while pending:
+        current = pending.pop()
+        if id(current) in seen:
+            continue
+        seen.add(id(current))
+        chain.append(current)
+        pending.extend(e for e in (current.__cause__, current.__context__) if e is not None)
+    if any(
+        isinstance(e, ssl.SSLCertVerificationError) or "CERTIFICATE_VERIFY_FAILED" in str(e).upper()
+        for e in chain
+    ):
+        return (
+            "tls",
+            "Не удалось проверить TLS-сертификат сервера. "
+            "Проверьте системную дату. Для дополнительных сертификатов или корпоративного прокси "
+            f"задайте доверенный PEM в {ca_bundle_env}.",
+            False,
+        )
+    if any(isinstance(e, ssl.SSLError) for e in chain):
+        return "tls", "Не удалось установить TLS-соединение. Проверьте сертификаты и настройки сети.", False
+    if isinstance(exc, httpx.ProxyError):
+        return "proxy", "Ошибка прокси. Проверьте HTTPS_PROXY, HTTP_PROXY и ALL_PROXY.", True
+    if isinstance(exc, httpx.TimeoutException):
+        return "timeout", "Истёк таймаут подключения или ожидания ответа. Проверьте сеть и VPN/прокси.", True
+    if any(isinstance(e, socket.gaierror) for e in chain):
+        return "dns", "Не удалось найти адрес сервера (DNS). Проверьте подключение и настройки DNS/VPN.", True
+    return (
+        "network",
+        "Не удалось соединиться с сервером API. Проверьте сеть, VPN/прокси и доступ к API.",
+        True,
+    )
 
 
 def assistant_message(turn: Turn) -> dict:
@@ -55,10 +115,7 @@ class HTTPProvider:
         transport: httpx.AsyncBaseTransport | None = None,
     ):
         self.config, self.trace = config, trace
-        context = ssl.create_default_context()
-        ca_bundle = os.getenv(config.ca_bundle_env, "")
-        if ca_bundle:
-            context.load_verify_locations(cafile=ca_bundle)
+        context = ssl_context(config)
         try:
             self.client = httpx.AsyncClient(
                 timeout=config.timeout_seconds, verify=context, transport=transport, follow_redirects=False
@@ -77,18 +134,31 @@ class HTTPProvider:
         return value
 
     async def _request(self, method: str, url: str, **kwargs) -> dict:
+        stage = "авторизация GigaChat" if url == self.config.auth_url else "API модели"
         for attempt in range(1, self.config.max_attempts + 1):
             retryable = False
             kind = "network"
+            message = "Не удалось соединиться с сервером API"
             try:
                 async with self.client.stream(method, url, **kwargs) as response:
                     if response.status_code == 401:
-                        raise ProviderError("authentication", "API отклонил авторизацию")
+                        raise ProviderError(
+                            "authentication",
+                            f"{stage}: HTTP 401, авторизация отклонена. Проверьте Authorization Key и scope.",
+                        )
                     if response.status_code == 403:
-                        raise ProviderError("forbidden", "API не разрешает запрос: проверьте доступ и баланс")
+                        raise ProviderError(
+                            "forbidden", f"{stage}: HTTP 403. Проверьте доступ к API, scope и баланс."
+                        )
                     if response.status_code == 429 or response.status_code >= 500:
                         retryable = True
                         kind = "rate_limit" if response.status_code == 429 else "service_unavailable"
+                        message = (
+                            "Превышен лимит запросов (HTTP 429). Повторите позже."
+                            if response.status_code == 429
+                            else f"Сервис или сетевой шлюз вернул HTTP {response.status_code}. "
+                            "Проверьте доступность API из вашей сети и повторите позже."
+                        )
                     elif response.status_code >= 300:
                         raise ProviderError(
                             "request_rejected", f"API отклонил запрос, HTTP {response.status_code}"
@@ -106,15 +176,15 @@ class HTTPProvider:
                             return payload
                         except (ValueError, UnicodeError) as exc:
                             raise ProviderError("invalid_response", "API вернул некорректный JSON") from exc
-            except (httpx.TimeoutException, httpx.NetworkError):
-                retryable, kind = True, "timeout"
             except httpx.HTTPError as exc:
-                raise ProviderError("network", "Ошибка HTTP-транспорта") from exc
+                kind, message, retryable = transport_failure(exc, self.config.ca_bundle_env)
+                if not retryable:
+                    raise ProviderError(kind, f"{stage}: {message}") from exc
             if retryable:
                 if self.trace:
                     self.trace.emit("provider_retry", attempt=attempt, error_type=kind)
                 if attempt == self.config.max_attempts:
-                    raise ProviderError(kind, "Провайдер недоступен после ограниченного числа попыток")
+                    raise ProviderError(kind, f"{stage}: {message} Выполнено попыток: {attempt}.")
                 await asyncio.sleep(min(0.25 * 2 ** (attempt - 1), 2))
         raise ProviderError("internal", "Не удалось выполнить запрос")
 

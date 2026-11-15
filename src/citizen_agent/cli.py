@@ -42,8 +42,9 @@ async def async_main(args) -> int:
         state = {
             "provider": config.provider.kind,
             "model": config.provider.model,
-            "credentials_present": bool(os.getenv(config.provider.credentials_env)),
+            "credentials_present": bool(os.getenv(config.provider.credentials_env, "").strip()),
             "ca_bundle_configured": bool(os.getenv(config.provider.ca_bundle_env)),
+            "gigachat_ca_bundled": config.provider.kind == "gigachat",
             "knowledge_exists": (root / config.knowledge_path).exists(),
             "routing_exists": (root / config.routing_path).exists(),
             "tls_verification": True,
@@ -55,18 +56,37 @@ async def async_main(args) -> int:
                     file=sys.stderr,
                 )
                 return 2
-            provider = GigaChatProvider(config.provider)
+            state.update(oauth_ok=False, models_ok=False, live_stage="oauth")
+            provider = None
             try:
+                provider = GigaChatProvider(config.provider)
                 token = await provider._access_token()
+                state.update(oauth_ok=True, live_stage="models")
                 models = await provider._request(
                     "GET",
                     config.provider.base_url.rstrip("/") + "/models",
                     headers={"Authorization": "Bearer " + token},
                 )
-                state["available_models"] = [m["id"] for m in models.get("data", [])]
+                data = models.get("data")
+                if not isinstance(data, list) or not all(
+                    isinstance(m, dict) and isinstance(m.get("id"), str) for m in data
+                ):
+                    raise ProviderError("invalid_response", "API вернул некорректный список моделей")
+                state["available_models"] = [m["id"] for m in data]
+                state.update(models_ok=True, live_stage="complete")
                 state["configured_model_available"] = config.provider.model in state["available_models"]
+                if not state["configured_model_available"]:
+                    raise ProviderError(
+                        "model_unavailable",
+                        "Выбранная модель недоступна. Укажите модель из available_models в конфиге.",
+                    )
+            except ProviderError as exc:
+                state["live_error"] = {"type": exc.kind, "message": redact(str(exc))}
+                print(json.dumps(state, ensure_ascii=False, indent=2))
+                return 2
             finally:
-                await provider.aclose()
+                if provider is not None:
+                    await provider.aclose()
         print(json.dumps(state, ensure_ascii=False, indent=2))
         return 0 if all(state[k] for k in ("knowledge_exists", "routing_exists")) else 1
     if args.command == "queue":

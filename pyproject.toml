@@ -7,7 +7,7 @@ name = "citizen-appeals-agent"
 version = "0.1.0"
 description = "Homework 1: source-grounded citizen appeals agent with three contracted tools"
 requires-python = ">=3.11"
-dependencies = ["httpx[socks]>=0.27,<1", "pydantic>=2.10,<3", "python-dotenv>=1.0,<2"]
+dependencies = ["httpx[socks]>=0.27,<1", "certifi>=2024.2.2", "pydantic>=2.10,<3", "python-dotenv>=1.0,<2"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.11,<1", "build>=1,<2"]
@@ -17,6 +17,9 @@ appeals = "citizen_agent.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+citizen_agent = ["certs/*.pem"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

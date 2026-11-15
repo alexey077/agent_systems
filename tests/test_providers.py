@@ -228,6 +228,7 @@ def test_http_failures_classified_and_bounded(monkeypatch, status, kind):
             with pytest.raises(ProviderError) as exc:
                 await provider.complete([], SCHEMAS)
             assert exc.value.kind == kind
+            assert f"HTTP {status}" in str(exc.value)
             assert "private secret" not in str(exc.value)
         finally:
             await provider.aclose()
