@@ -19,6 +19,8 @@
 
 ## Технические первоисточники
 
+При содержательной проверке 15.11.2026 фрагмент `fns_tax_debt` уточнён по той же официальной странице ЕНС: вопрос по сальдо можно задать в кабинете, для детальной сверки указан отдельный сервис «Онлайн-запись на прием в инспекцию». Версия базы — `2026-11-15.quality-review`. [Подробный разбор черновиков](draft_quality_review.md).
+
 - [Авторизация GigaChat API](https://developers.sber.ru/docs/ru/gigachat/api/reference/rest/gigachat-api): OAuth, scope, Bearer и адрес API.
 - [Генерация аргументов пользовательских функций](https://developers.sber.ru/docs/ru/gigachat/guides/functions/generating-arguments-for-custom-functions): native functions/function_call, роль function, сохранение functions_state_id.
 - [Работа с функциями](https://developers.sber.ru/docs/ru/gigachat/guides/functions/overview).

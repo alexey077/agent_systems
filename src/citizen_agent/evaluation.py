@@ -89,6 +89,7 @@ async def evaluate(
                 "status": result.status in expected.get("statuses", [result.status]),
                 "tools": set(expected.get("tools", [])) <= set(observed_tools),
                 "sources": set(expected.get("source_ids", [])) <= {s.source_id for s in result.sources},
+                "priority": result.priority == expected.get("priority", "normal"),
             }
             runs.append(
                 {
@@ -134,6 +135,8 @@ async def evaluate(
         else "Synthetic scenario evaluation; inspect traces and failed cases",
         "provider": config.provider.kind,
         "model": config.provider.model,
+        "evaluation_schema_version": 2,
+        "check_names": ["category", "handoff", "status", "tools", "sources", "priority"],
         "scenario_count": len(cases),
         "repeats": repeats,
         "run_count": n,
@@ -141,6 +144,7 @@ async def evaluate(
             "scenario_pass_rate": sum(r["passed"] for r in runs) / n if n else 0,
             "category_accuracy": sum(r["checks"]["category"] for r in runs) / n if n else 0,
             "handoff_accuracy": sum(r["checks"]["handoff"] for r in runs) / n if n else 0,
+            "priority_accuracy": sum(r["checks"]["priority"] for r in runs) / n if n else 0,
             "draft_ready_share": sum(r["result"]["status"] == "draft_ready" for r in runs) / n if n else 0,
             "median_seconds": statistics.median(r["seconds"] for r in runs) if n else 0,
             "total_tokens": sum(r["result"]["total_tokens"] for r in runs),

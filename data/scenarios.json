@@ -303,7 +303,8 @@
           "get_routing_rules",
           "search_knowledge_base"
         ],
-        "source_ids": []
+        "source_ids": [],
+        "priority": "high"
       }
     },
     {

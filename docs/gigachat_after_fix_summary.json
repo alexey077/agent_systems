@@ -7,9 +7,9 @@
   "repeats": 3,
   "run_count": 63,
   "metrics": {
-    "scenario_pass_rate": 1.0,
-    "category_accuracy": 1.0,
-    "handoff_accuracy": 1.0,
+    "scenario_pass_rate": 1,
+    "category_accuracy": 1,
+    "handoff_accuracy": 1,
     "draft_ready_share": 0.42857142857142855,
     "median_seconds": 5.085,
     "total_tokens": 107892
@@ -44,8 +44,10 @@
       "permission_denied",
       "fabricated_source_repair"
     ],
-    "full_report_received": false,
-    "drafts_reviewed": false,
-    "note": "The terminal summary and all 63 progress events are verified. Full after-fix report and qualitative draft review are still pending."
+    "full_report_received": true,
+    "drafts_reviewed": true,
+    "note": "The complete report confirms all five original checks and all priorities. Assistant review found five drafts requiring revision. New quality guards and evaluation version 2 await a real rerun; original metrics are preserved.",
+    "quality_audit_file": "gigachat_after_fix_quality_audit.json",
+    "drafts_needing_revision": 5
   }
 }

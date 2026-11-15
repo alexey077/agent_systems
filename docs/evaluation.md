@@ -56,6 +56,8 @@ appeals evaluate --repeats 3 --output runtime/gigachat_after_fix/report.json
 
 ## Что сохраняется и считается
 
+Начиная с `evaluation_schema_version=2` дополнительно проверяется priority: high задан в разметке срочного сценария, по умолчанию normal. Добавлены `check_names` и `priority_accuracy`. Прежние 63/63 относятся к пяти прежним критериям; [содержательная проверка полного отчёта](draft_quality_review.md) выявила пять текстов для правки. Метрики прежних запусков не переписываются. Следующий прогон после правок текста сохраняйте в `runtime/gigachat_quality_fix/report.json`.
+
 - В каждом прогоне: фактический `CaseResult`, использованные инструменты, длительность, trace_path, результаты проверок и pass/fail.
 - category_accuracy: число допустимых категорий / все прогоны.
 - handoff_accuracy: совпадение needs_human с разметкой / все прогоны.

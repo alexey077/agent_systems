@@ -19,7 +19,7 @@
 | R11 | Ключей нет в репозитории | `.gitignore`, `.env.example`, редактирование журналов | Проверка отслеживаемых файлов и тесты секретов |
 | R12 | Репозиторий с README и воспроизводимым запуском | `README.md`, `pyproject.toml`, CI, `docs/tls.md` | Установка, smoke, сборка с CA-ресурсом, диагностика `doctor --live` |
 | R13 | Нормальный сценарий и сбой на демо | `docs/demo.md`, команда `appeals demo` | Прогон обоих сценариев |
-| R14 | Тесты инструментов, модели с инструментами и отказов | `tests/`, `data/scenarios.json`, команда `appeals evaluate`, `docs/gigachat_first_live_audit.json` | Offline suite; 3–5 повторов real LLM; разбор всех провалов и повтор после исправлений |
+| R14 | Тесты инструментов, модели с инструментами и отказов | `tests/`, `data/scenarios.json`, команда `appeals evaluate`, `docs/draft_quality_review.md` | Offline suite; 3–5 повторов real LLM; разбор провалов и содержания; в версии оценки 2 отдельно проверяется priority |
 | R15 | Видео до 3 минут | `docs/demo.md` | **Финальная запись с реальной моделью: требуется локальный запуск с ключом** |
 | R16 | Живое демо 16 ноября | `docs/demo.md`, `docs/submission.md` | **Выполняет команда на занятии** |
 
